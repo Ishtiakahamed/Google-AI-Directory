@@ -1,0 +1,6 @@
+{
+  "name": "Google AI Directory",
+  "description": "A categorized directory of Google's AI products, tools, and research links.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
