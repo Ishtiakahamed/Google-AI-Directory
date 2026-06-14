@@ -1,13 +1,1288 @@
 <!doctype html>
-<html lang="en">
+<html lang="bn" class="h-full">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
+    <title>Google AI Directory - গুগল এআই নির্দেশিকা</title>
+    <!-- Tailwind CSS v4 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Inter and Mono Typography Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <!-- Lucide Icons Library CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #0F0F0F;
+        color: #F5F5F5;
+      }
+      .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+    </style>
   </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+  <body class="min-h-screen relative overflow-x-hidden selection:bg-blue-600 selection:text-white pb-20">
+    
+    <!-- Dynamic grid background decoration -->
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,#1f1f1f_1px,transparent_1px),linear-gradient(to_bottom,#1f1f1f_1px,transparent_1px)] bg-[size:5rem_5rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none opacity-30 z-0 h-[600px]"></div>
+
+    <div class="max-w-6xl mx-auto px-6 pt-16 relative z-10">
+      
+      <!-- Bold Typography Header -->
+      <header class="mb-14 flex flex-col md:flex-row justify-between items-start md:items-baseline border-b-4 border-white pb-6 gap-6">
+        <div class="flex flex-col">
+          <span class="text-xs font-bold uppercase tracking-[0.3em] text-[#4285F4] mb-1 font-mono">Resource Directory</span>
+          <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none italic text-white select-none">
+            Google AI
+          </h1>
+          <p class="text-lg md:text-xl font-bold uppercase tracking-wide text-[#F5F5F5]/60 mt-1.5 font-mono">
+            INDEX-BGR // গুগল এআই নির্দেশিকা
+          </p>
+        </div>
+        <div class="text-left md:text-right">
+          <div class="text-sm font-bold bg-white text-black px-3.5 py-1.5 uppercase tracking-tighter mb-2 inline-block">
+            Official Links Only
+          </div>
+          <div class="text-xs text-slate-400 uppercase tracking-widest font-mono">
+            UPDATED // BOLD INDEX-HTML
+          </div>
+        </div>
+      </header>
+
+      <!-- Global Search & Stats Panel -->
+      <div class="bg-[#161616] border-2 border-white/10 p-5 md:p-6 mb-12 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 shadow-2xl">
+        <!-- Search bar -->
+        <div class="relative flex-1 group">
+          <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <i data-lucide="search" class="h-5 w-5 text-zinc-500 group-focus-within:text-white transition-colors"></i>
+          </span>
+          <input
+            id="search-input"
+            type="text"
+            placeholder="যেকোনো নাম, বিবরণ বা লিংক খুঁজুন... (Search products...)"
+            oninput="filterDirectory()"
+            class="block w-full pl-11 pr-10 py-3 text-sm bg-[#1e1e1e] border-2 border-white/15 focus:bg-[#252525] focus:outline-none focus:border-[#4285F4] text-white transition-all placeholder-zinc-500 font-mono"
+          />
+          <button 
+            id="search-clear-button"
+            onclick="clearSearch()"
+            class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-zinc-500 hover:text-white hidden transition-colors"
+            title="সার্চ ক্লিয়ার করুন"
+          >
+            <i data-lucide="x" class="h-4 w-4"></i>
+          </button>
+        </div>
+
+        <!-- Quick filter indicators -->
+        <div class="flex items-center gap-3">
+          <span class="text-xs font-mono font-bold bg-[#1d1d1d] text-slate-300 px-3.5 py-2.5 border-2 border-white/10" id="stats-badge">
+            29 PRODUCTS LISTED
+          </span>
+          <button 
+            id="reset-filter-btn"
+            onclick="clearSearch()"
+            class="text-xs font-bold uppercase tracking-wider px-3.5 py-2.5 bg-red-600/20 text-red-400 border-2 border-red-500/30 hover:bg-red-600/30 transition-colors hidden cursor-pointer flex items-center gap-1"
+          >
+            Reset Filter
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Category Navigator -->
+      <div id="quick-nav-container" class="mb-12">
+        <p class="text-xs font-mono font-bold text-slate-400/90 uppercase tracking-widest mb-3.5">
+          ক্যাটাগরি কুইক জ্যাপ
+        </p>
+        <div class="flex flex-wrap gap-2.5">
+          <a href="#general" class="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase text-slate-300 bg-[#161616] border-2 border-white/10 hover:border-white hover:text-white transition-all shadow-md">
+            <span class="font-mono text-[10px] text-zinc-500">01</span>
+            <span class="w-2 h-2 rounded-full bg-[#4285F4]"></span>
+            <span>সাধারণ ব্যবহারকারী & সার্চ</span>
+          </a>
+          <a href="#developers" class="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase text-slate-300 bg-[#161616] border-2 border-white/10 hover:border-white hover:text-white transition-all shadow-md">
+            <span class="font-mono text-[10px] text-zinc-500">02</span>
+            <span class="w-2 h-2 rounded-full bg-[#34A853]"></span>
+            <span>ডেভেলপার কোড টুল্স</span>
+          </a>
+          <a href="#creative" class="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase text-slate-300 bg-[#161616] border-2 border-white/10 hover:border-white hover:text-white transition-all shadow-md">
+            <span class="font-mono text-[10px] text-zinc-500">03</span>
+            <span class="w-2 h-2 rounded-full bg-[#EA4335]"></span>
+            <span>ক্রিয়েটিভ টুলস</span>
+          </a>
+          <a href="#productivity" class="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase text-slate-300 bg-[#161616] border-2 border-white/10 hover:border-white hover:text-white transition-all shadow-md">
+            <span class="font-mono text-[10px] text-zinc-500">04</span>
+            <span class="w-2 h-2 rounded-full bg-[#FBBC04]"></span>
+            <span>ওয়ার্কস্পেস</span>
+          </a>
+          <a href="#scientific" class="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase text-slate-300 bg-[#161616] border-2 border-white/10 hover:border-white hover:text-white transition-all shadow-md">
+            <span class="font-mono text-[10px] text-zinc-500">05</span>
+            <span class="w-2 h-2 rounded-full bg-[#C084FC]"></span>
+            <span>সায়েন্টিফিক & রোবোটিক্স</span>
+          </a>
+          <a href="#safety" class="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase text-slate-300 bg-[#161616] border-2 border-white/10 hover:border-white hover:text-white transition-all shadow-md">
+            <span class="font-mono text-[10px] text-zinc-500">06</span>
+            <span class="w-2 h-2 rounded-full bg-[#9CA3AF]"></span>
+            <span>এআই সেফটি & ট্রাস্ট</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Categories & Links Grid -->
+      <div id="directory-content" class="space-y-16">
+
+        <!-- 01 General Users, Search & Agents -->
+        <section id="general" class="directory-section scroll-mt-8">
+          <div class="flex items-center justify-between border-b-2 border-white/30 pb-4 mb-8">
+            <div class="flex items-baseline gap-4">
+              <span class="text-3xl font-black italic font-mono text-[#4285F4]">01</span>
+              <div>
+                <h2 class="text-xl md:text-2xl font-black uppercase tracking-tight text-white flex items-center gap-2 mb-0.5">
+                  <i data-lucide="compass" class="w-5 h-5 text-[#4285F4]"></i>
+                  সাধারণ ব্যবহারকারী, সার্চ এবং এজেন্ট
+                </h2>
+                <p class="text-xs font-mono font-bold text-slate-400/90 tracking-widest uppercase">
+                  General Users, Search & Agents
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 section-grid">
+            
+            <!-- Link Card: Google Search AI Mode -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #4285F4; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://blog.google/products/search/google-search-ai-mode-update/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#4285F4] transition-all">
+                    Google Search AI Mode Update
+                  </a>
+                  <a href="https://blog.google/products/search/google-search-ai-mode-update/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">AI Mode in Google Search</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#4285F4] font-bold mr-1">[BN]</span>গুগল সার্চে কৃত্রিম বুদ্ধিমত্তার নতুন আপডেট ও এআই মোড সংক্রান্ত অফিসিয়াল ঘোষণা।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Official blog post detailing the integration and updates of generative AI in Google Search.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="blog.google">blog.google</span>
+                <a href="https://blog.google/products/search/google-search-ai-mode-update/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: Project Mariner -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #4285F4; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://blog.google/innovation-and-ai/models-and-research/google-deepmind/gemini-universal-ai-assistant/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#4285F4] transition-all">
+                    Project Mariner - Universal Assistant
+                  </a>
+                  <a href="https://blog.google/innovation-and-ai/models-and-research/google-deepmind/gemini-universal-ai-assistant/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">Project Mariner</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#4285F4] font-bold mr-1">[BN]</span>গুগল ডিপমাইন্ডের পরবর্তী প্রজন্মের সার্বজনীন স্বয়ংক্রিয় এআই এজেন্ট ও সহকারী।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Google DeepMind's publication about building a helpful, universal AI agent for everyday tasks.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="blog.google">blog.google</span>
+                <a href="https://blog.google/innovation-and-ai/models-and-research/google-deepmind/gemini-universal-ai-assistant/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: Deep Think -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #4285F4; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://deepmind.google/models/gemini/deep-think/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#4285F4] transition-all">
+                    Gemini Deep Think
+                  </a>
+                  <a href="https://deepmind.google/models/gemini/deep-think/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">Deep Think</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#4285F4] font-bold mr-1">[BN]</span>জটিল গাণিতিক, বৈজ্ঞানিক ও যৌক্তিক সমস্যা সমাধানের গভীর চিন্তন ক্ষমতাসম্পন্ন মডেল।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Google DeepMind's highly capable reasoning model optimized for complex STEM and logical tasks.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="deepmind.google">deepmind.google</span>
+                <a href="https://deepmind.google/models/gemini/deep-think/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: Google Flow Agent -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #4285F4; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://support.google.com/flow/answer/17093911" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#4285F4] transition-all">
+                    Use the Google Flow Agent
+                  </a>
+                  <a href="https://support.google.com/flow/answer/17093911" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">Google Flow Agent</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#4285F4] font-bold mr-1">[BN]</span>স্বয়ংক্রিয় কাজের ধারা ও প্রসেস ম্যানেজ করার গুগল ফ্লো এজেন্টের অফিসিয়াল সাপোর্ট পেজ।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Official support documentation on utilizing the automated Google Flow Agent workflow tool.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="support.google.com">support.google</span>
+                <a href="https://support.google.com/flow/answer/17093911" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: Gemini Spark -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #4285F4; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://support.google.com/gemini/answer/17094507" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#4285F4] transition-all">
+                    Use Gemini Spark to manage tasks
+                  </a>
+                  <a href="https://support.google.com/gemini/answer/17094507" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">Gemini Spark</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#4285F4] font-bold mr-1">[BN]</span>টাস্ক বা কাজ সুচারুভাবে পরিচালনার জন্য জেমিনি স্পার্ক টুলের অফিসিয়াল গাইড।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Learn how to orchestrate, plan and complete everyday tasks with Gemini Spark.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="support.google.com">support.google</span>
+                <a href="https://support.google.com/gemini/answer/17094507" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: Shopping AI -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #4285F4; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://blog.google/products/shopping/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#4285F4] transition-all">
+                    Google Shopping AI
+                  </a>
+                  <a href="https://blog.google/products/shopping/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">Shopping AI</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#4285F4] font-bold mr-1">[BN]</span>এআই টেকনোলজির মাধ্যমে পার্সোনালাইজড অনলাইন শপিং ও পণ্যের তুলনা করার সুবিধা।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Google Shopping blog featuring new AI-powered item recommendation and visual search upgrades.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="blog.google">blog.google</span>
+                <a href="https://blog.google/products/shopping/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 02 Developer & Coding Tools -->
+        <section id="developers" class="directory-section scroll-mt-8">
+          <div class="flex items-center justify-between border-b-2 border-white/30 pb-4 mb-8">
+            <div class="flex items-baseline gap-4">
+              <span class="text-3xl font-black italic font-mono text-[#34A853]">02</span>
+              <div>
+                <h2 class="text-xl md:text-2xl font-black uppercase tracking-tight text-white flex items-center gap-2 mb-0.5">
+                  <i data-lucide="code" class="w-5 h-5 text-[#34A853]"></i>
+                  ডেভেলপার এবং কোডিং টুলস
+                </h2>
+                <p class="text-xs font-mono font-bold text-slate-400/90 tracking-widest uppercase">
+                  Developer & Coding Tools
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 section-grid">
+            
+            <!-- Link Card: Firebase Genkit -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #34A853; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://genkit.dev/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#34A853] transition-all">
+                    Firebase Genkit Framework
+                  </a>
+                  <a href="https://genkit.dev/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">Firebase Genkit</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#34A853] font-bold mr-1">[BN]</span>ডেভেলপারদের জন্য উৎপাদনমুখী এআই অ্যাপ্লিকেশন ও মডেল দ্রুত ইন্টিগ্রেট করার ফ্রেমওয়ার্ক।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>An open-source framework by Google to build, deploy, and monitor production-ready AI applications.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="genkit.dev">genkit.dev</span>
+                <a href="https://genkit.dev/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: Gemini CLI -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #34A853; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://github.com/google-gemini/gemini-cli" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#34A853] transition-all">
+                    Gemini CLI (GitHub)
+                  </a>
+                  <a href="https://github.com/google-gemini/gemini-cli" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">Gemini CLI</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#34A853] font-bold mr-1">[BN]</span>টার্মিনাল বা কমান্ড লাইন ইন্টারফেস থেকে সরাসরি জেমিনি এপিআই অ্যাক্সেস করার অফিশিয়াল টুল।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Access Gemini directly from your command line with this official GitHub open-source CLI utility.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="github.com">github.com</span>
+                <a href="https://github.com/google-gemini/gemini-cli" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: Firebase Studio -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #34A853; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://firebase.studio/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#34A853] transition-all">
+                    Firebase Studio
+                  </a>
+                  <a href="https://firebase.studio/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">Firebase Studio (Project IDX)</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#34A853] font-bold mr-1">[BN]</span>ক্লাউড-ভিত্তিক ইন্টেলিজেন্ট কোডিং টুল ও আইডিই পরিবেশ (প্রজেক্ট আইডেক্স চালিত)।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Next-gen developer workstation by Google powered by Project IDX and Firebase integrations.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="firebase.studio">firebase.studio</span>
+                <a href="https://firebase.studio/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: Jules -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #34A853; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://blog.google/innovation-and-ai/models-and-research/google-labs/jules/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#34A853] transition-all">
+                    Build with Jules Coding Agent
+                  </a>
+                  <a href="https://blog.google/innovation-and-ai/models-and-research/google-labs/jules/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300 font-mono">Jules</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#34A853] font-bold mr-1">[BN]</span>জুলস (Jules): জটিল সফটওয়্যার পরিবর্তন ও স্বয়ংক্রিয় বাগ ফিক্স করতে সক্ষম কোডিং এজেন্ট।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Introducing Google's asynchronous AI coding agent designed to automate complex software refactoring.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="blog.google">blog.google</span>
+                <a href="https://blog.google/innovation-and-ai/models-and-research/google-labs/jules/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: Google Coral -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #34A853; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://coral.ai/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#34A853] transition-all">
+                    Coral - Edge TPU Hardware
+                  </a>
+                  <a href="https://coral.ai/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">Google Coral</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#34A853] font-bold mr-1">[BN]</span>লোকাল ডিভাইসে হাই-স্পিড মেশিন লার্নিং মডেল রান করার জন্য গুগলের ডেডিকেটেড হার্ডওয়্যার সলিউশন।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Hardware platform for local, high-speed neural network inference on smart hardware endpoints.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="coral.ai">coral.ai</span>
+                <a href="https://coral.ai/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: TensorFlow, JAX, Keras -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #34A853; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://www.tensorflow.org/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#34A853] transition-all">
+                    TensorFlow / JAX / Keras Ecosystem
+                  </a>
+                  <a href="https://www.tensorflow.org/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">TensorFlow, JAX, Keras</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#34A853] font-bold mr-1">[BN]</span>ওপেন-সোর্স এন্ড-টু-এন্ড মেশিন লার্নিং প্ল্যাটফর্ম যা মডেল ট্রেনিং ও ডিপ্লয়মেন্ট সহজ করে।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Google's seminal frameworks architecture for numerical computing, optimization, and training.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="tensorflow.org">tensorflow.org</span>
+                <a href="https://www.tensorflow.org/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 03 Creative & Multimodal Tools -->
+        <section id="creative" class="directory-section scroll-mt-8">
+          <div class="flex items-center justify-between border-b-2 border-white/30 pb-4 mb-8">
+            <div class="flex items-baseline gap-4">
+              <span class="text-3xl font-black italic font-mono text-[#EA4335]">03</span>
+              <div>
+                <h2 class="text-xl md:text-2xl font-black uppercase tracking-tight text-white flex items-center gap-2 mb-0.5">
+                  <i data-lucide="palette" class="w-5 h-5 text-[#EA4335]"></i>
+                  ক্রিয়েটিভ এবং মাল্টিমোডালツールস
+                </h2>
+                <p class="text-xs font-mono font-bold text-slate-400/90 tracking-widest uppercase">
+                  Creative & Multimodal Tools
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 section-grid">
+            
+            <!-- Link Card: Veo -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #EA4335; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://deepmind.google/models/veo/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#EA4335] transition-all">
+                    Veo Video Generation
+                  </a>
+                  <a href="https://deepmind.google/models/veo/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">Veo / Veo 2 / Veo 3</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#EA4335] font-bold mr-1">[BN]</span>হাই-ডেফিনিশন সিনেমাটিক ভিডিও জেনারেশন ও এডিটিং প্রফেশনাল মডেল।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Cinematic, high-definition generative video model that gives creators unparalleled control.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="deepmind.google/models/veo">deepmind.google</span>
+                <a href="https://deepmind.google/models/veo/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: Lyria -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #EA4335; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://deepmind.google/models/lyria/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#EA4335] transition-all">
+                    Lyria Music AI
+                  </a>
+                  <a href="https://deepmind.google/models/lyria/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">Lyria / Lyria 2 / Lyria 3 Pro</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#EA4335] font-bold mr-1">[BN]</span>উচ্চমানের মিউজিক, টিউন, ইন্সট্রুমেন্টাল ট্র্যাক ও অডিও জেনারেটর মডেল।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>State-of-the-art music and audio generation model family built in collaboration with YouTube creative ecosystem.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="deepmind.google/models/lyria">deepmind.google</span>
+                <a href="https://deepmind.google/models/lyria/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: ImageFX -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #EA4335; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://aitestkitchen.withgoogle.com/tools/image-fx" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#EA4335] transition-all">
+                    ImageFX - Image Generator
+                  </a>
+                  <a href="https://aitestkitchen.withgoogle.com/tools/image-fx" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">ImageFX</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#EA4335] font-bold mr-1">[BN]</span>ইমাজেন ৩ (Imagen 3) চালিত হাইপার-রিয়েলিস্টিক ছবি জেনারেটর টুল।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Fast and flexible AI image generation playground utilizing Google's latest Imagen rendering capability.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="aitestkitchen.withgoogle.com">aitestkitchen</span>
+                <a href="https://aitestkitchen.withgoogle.com/tools/image-fx" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: Project Genie -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #EA4335; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://deepmind.google/models/genie/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#EA4335] transition-all">
+                    Genie - Game & Interactive Model
+                  </a>
+                  <a href="https://deepmind.google/models/genie/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">Project Genie / Genie 3</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#EA4335] font-bold mr-1">[BN]</span>ইন্টারেক্টিভ গেম ও ২ডি থ্রিডি ভার্চুয়াল ওয়ার্ল্ড জেনারেশন জেনারেটিভ মডেল।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Generative interactive environments model that converts images or sketches into playable video games.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="deepmind.google">deepmind.google</span>
+                <a href="https://deepmind.google/models/genie/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: Magic Editor -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #EA4335; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://support.google.com/pixelphone/answer/14210461" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#EA4335] transition-all">
+                    Magic Editor & Magic Eraser
+                  </a>
+                  <a href="https://support.google.com/pixelphone/answer/14210461" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">Magic Editor / Magic Eraser / Photo Unblur</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#EA4335] font-bold mr-1">[BN]</span>পিক্সেল ফোনের এআই চালিত বিশেষ ফটো এডিটিং ও ব্যাকগ্রাউন্ড সিলেকশন চমৎকার ইরেজার ফিচার।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Semantic photo editing suite that enables objects resizing, shifting, and lighting adjustments on Pixel.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="support.google">support.google</span>
+                <a href="https://support.google.com/pixelphone/answer/14210461" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: Pixel Studio -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #EA4335; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://support.google.com/pixelphone/answer/14226110" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#EA4335] transition-all">
+                    Pixel Studio
+                  </a>
+                  <a href="https://support.google.com/pixelphone/answer/14226110" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">Pixel Studio</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#EA4335] font-bold mr-1">[BN]</span>গুগল পিক্সেল ডিভাইসের এক্সক্লুসিভ ইমেজ ক্রিয়েশন আর ডিজাইন হাব প্লেগ্রাউন্ড।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Exclusive on-device creative canvas app for generating personalized illustrations, stickers and artwork.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="support.google">support.google</span>
+                <a href="https://support.google.com/pixelphone/answer/14226110" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 04 Productivity, Workspace & Cloud -->
+        <section id="productivity" class="directory-section scroll-mt-8">
+          <div class="flex items-center justify-between border-b-2 border-white/30 pb-4 mb-8">
+            <div class="flex items-baseline gap-4">
+              <span class="text-3xl font-black italic font-mono text-[#FBBC04]">04</span>
+              <div>
+                <h2 class="text-xl md:text-2xl font-black uppercase tracking-tight text-white flex items-center gap-2 mb-0.5">
+                  <i data-lucide="layers" class="w-5 h-5 text-[#FBBC04]"></i>
+                  প্রোডাক্টিভিটি, ওয়ার্কস্পেস এবং ক্লাউড
+                </h2>
+                <p class="text-xs font-mono font-bold text-slate-400/90 tracking-widest uppercase">
+                  Productivity, Workspace & Cloud
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 section-grid">
+            
+            <!-- Link Card: Duet AI / Workspace -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #FBBC04; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://workspace.google.com/solutions/ai/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#FBBC04] transition-all">
+                    Gemini for Workspace (Duet AI)
+                  </a>
+                  <a href="https://workspace.google.com/solutions/ai/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">Duet AI (Workspace)</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#FBBC04] font-bold mr-1">[BN]</span>গুগল ডকস, শিটস, জিমেইল ও স্লাইডে যুক্ত জেমিনি ইন্টেলিজেন্ট কো-রাইটার এবং অ্যাসিস্ট্যান্ট।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Leverage Gemini to draft emails, summarize documents, structure data tables, and design slides.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="workspace.google.com">workspace.google</span>
+                <a href="https://workspace.google.com/solutions/ai/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: NotebookLM Plus -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #FBBC04; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://notebooklm.google/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#FBBC04] transition-all">
+                    NotebookLM Research Assistant
+                  </a>
+                  <a href="https://notebooklm.google/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">NotebookLM Plus</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#FBBC04] font-bold mr-1">[BN]</span>ফাইলের ডকুমেন্ট বুঝে নিয়ে অটোমেটিক প্রশ্নোত্তর, সামারি ও ইন্টারঅ্যাক্টিভ অডিও পডকাস্ট ওভারভিউ মেকার।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Your personalized AI research assistant that learns your documents and generates interactive host audio overviews.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="notebooklm.google">notebooklm.google</span>
+                <a href="https://notebooklm.google/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: Audio Overviews -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #FBBC04; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://blog.google/products/workspace/notebooklm-audio-overviews/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-[#FBBC04] transition-all">
+                    NotebookLM Audio Overviews
+                  </a>
+                  <a href="https://blog.google/products/workspace/notebooklm-audio-overviews/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">Audio Overviews</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-[#FBBC04] font-bold mr-1">[BN]</span>নোটবইয়ে সংযুক্ত দলিলের মাধ্যমে অডিও পডকাস্ট ওভারভিউ তৈরি করার প্রযুক্তি ও গাইডলাইন।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Introducing AI-generated deep dives where virtual hosts discuss, summarize, and explain complex PDF papers.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="blog.google">blog.google</span>
+                <a href="https://blog.google/products/workspace/notebooklm-audio-overviews/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 05 Scientific, Specialized, Health & Robotics -->
+        <section id="scientific" class="directory-section scroll-mt-8">
+          <div class="flex items-center justify-between border-b-2 border-white/30 pb-4 mb-8">
+            <div class="flex items-baseline gap-4">
+              <span class="text-3xl font-black italic font-mono text-[#C084FC]">05</span>
+              <div>
+                <h2 class="text-xl md:text-2xl font-black uppercase tracking-tight text-white flex items-center gap-2 mb-0.5">
+                  <i data-lucide="flask-conical" class="w-5 h-5 text-[#C084FC]"></i>
+                  সায়েন্টিফিক, স্পেশালাইজড, হেলথ এবং রোবোটিক্স
+                </h2>
+                <p class="text-xs font-mono font-bold text-slate-400/90 tracking-widest uppercase">
+                  Scientific, Specialized, Health & Robotics
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 section-grid">
+            
+            <!-- Link Card: Med-PaLM -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #C084FC; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://sites.research.google/med-palm/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-purple-400 transition-all">
+                    Med-PaLM Clinical Model
+                  </a>
+                  <a href="https://sites.research.google/med-palm/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">Med-PaLM / Med-PaLM 2</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-purple-400 font-bold mr-1">[BN]</span>চিকিৎসা বিজ্ঞান ও ক্লিনিকাল কোয়েরির নির্ভরযোগ্য উত্তর প্রদানের জন্য স্পেশালাইজড এআই মডেল।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Large language models designed to provide high-quality, clinically accurate answers to medical research inquiries.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="sites.research.google">sites.research.google</span>
+                <a href="https://sites.research.google/med-palm/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: MedGemma / SignGemma -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #C084FC; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://research.google/blog/advancing-medical-ai-with-med-gemini/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-purple-400 transition-all">
+                    Advancing Medical AI (Med-Gemini)
+                  </a>
+                  <a href="https://research.google/blog/advancing-medical-ai-with-med-gemini/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">MedGemma / SignGemma</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-purple-400 font-bold mr-1">[BN]</span>মাল্টিমোডাল মেডিকেল ইনপুট বিশ্লেষণ এবং সাইন ল্যাঙ্গুয়েজ বোঝার বিশেষ এআই প্রজেক্ট।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Highly capable multimodal systems fine-tuned for medical reasoning, signs reading, and diagnostics.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="research.google">research.google</span>
+                <a href="https://research.google/blog/advancing-medical-ai-with-med-gemini/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: AlphaMissense -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #C084FC; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://deepmind.google/science/alphamissense/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-purple-400 transition-all">
+                    AlphaMissense Variant Predictor
+                  </a>
+                  <a href="https://deepmind.google/science/alphamissense/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">AlphaMissense</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-purple-400 font-bold mr-1">[BN]</span>ডিএনএ বা জিনগত পরিবর্তনের ক্ষতিকর প্রভাব ও আণবিক ত্রুটির আশঙ্কা নির্ণয়ের বৈজ্ঞানিক মডেল।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Scientific model mapping structural missense variants to predict generic disease associations in genetics.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="deepmind.google">deepmind.google</span>
+                <a href="https://deepmind.google/science/alphamissense/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: AlphaCode -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #C084FC; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://deepmind.google/blog/competitive-programming-with-alphacode/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-purple-400 transition-all">
+                    AlphaCode Coding Engine
+                  </a>
+                  <a href="https://deepmind.google/blog/competitive-programming-with-alphacode/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">AlphaCode</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-purple-400 font-bold mr-1">[BN]</span>ক্যালকুলাস ও জটিল এলগরিদম ব্যবহারের মাধ্যমে প্রতিযোগিতামূলক প্রোগ্রামিং সমাধানে সক্ষম মডেল।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>AI code generation system designed to write autonomous solutions to highly competitive programming tasks.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="deepmind.google/blog">deepmind.google</span>
+                <a href="https://deepmind.google/blog/competitive-programming-with-alphacode/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: AlphaTensor / AlphaDev -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #C084FC; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://deepmind.google/blog/discovering-novel-algorithms-with-alphatensor/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-purple-400 transition-all">
+                    AlphaTensor & AlphaDev
+                  </a>
+                  <a href="https://deepmind.google/blog/discovering-novel-algorithms-with-alphatensor/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">AlphaTensor / AlphaDev</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-purple-400 font-bold mr-1">[BN]</span>গণিত ও সি++ সর্টিং এলগরিদম অপ্টিমাইজেশনের মাধ্যমে কম্পিউটিং গতি বাড়ানোর ডিপমাইন্ড প্রজেক্ট।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>RL-based models uncovering mathematically optimal, faster assembly codes and matrix multiplications.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="deepmind.google/blog">deepmind.google</span>
+                <a href="https://deepmind.google/blog/discovering-novel-algorithms-with-alphatensor/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: GNoME -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #C084FC; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://deepmind.google/science/gnome/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-purple-400 transition-all">
+                    GNoME Materials Design
+                  </a>
+                  <a href="https://deepmind.google/science/gnome/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">GNoME</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-purple-400 font-bold mr-1">[BN]</span>২.২ মিলিয়ন নতুন স্ফটিক বা ক্রিস্টাল গ্রিড আবিষ্কারে সক্ষম আর্টিফিশিয়াল ম্যাটেরিয়াল সায়েন্স ডিজাইন টুল।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Deep learning model predicting stability in novel crystal lattice formations to accelerate advanced hardware engineering.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="deepmind.google">deepmind.google</span>
+                <a href="https://deepmind.google/science/gnome/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: GraphCast -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #C084FC; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://deepmind.google/science/graphcast/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-purple-400 transition-all">
+                    GraphCast Weather AI
+                  </a>
+                  <a href="https://deepmind.google/science/graphcast/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">GraphCast / NeuralGCM / GenCast</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-purple-400 font-bold mr-1">[BN]</span>আবহাওয়া পূর্বাভাসে শতভাগ নিখুঁত ট্র্যাকিং ও দ্রুততম থ্রিডি নোটিফিকেশন সিস্টেম।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Global weather forecasting model predicting extreme meteorology with unprecedented accuracy within minutes.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="deepmind.google">deepmind.google</span>
+                <a href="https://deepmind.google/science/graphcast/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: RT-2 -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #C084FC; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://robotics-transformer2.github.io/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-purple-400 transition-all">
+                    RT-2 Robotics Vision Transformer
+                  </a>
+                  <a href="https://robotics-transformer2.github.io/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">RT-1 / RT-2 / RT-X</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-purple-400 font-bold mr-1">[BN]</span>ভিজ্যুয়াল ইনপুট ও ভাষা সরাসরি রোবটিক অ্যান্ড-অ্যাক্টরে অ্যাকশন সিগন্যালে রূপান্তরের চমৎকার সিস্টেম।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Visual-Language-Action (VLA) models translating camera stream directly into robotic motor movements.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="robotics-transformer2.github.io">robotics-transformer2</span>
+                <a href="https://robotics-transformer2.github.io/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: PaLM 2 -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #C084FC; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://ai.google/discover/palm-2/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-purple-400 transition-all">
+                    PaLM 2 Large Language Model
+                  </a>
+                  <a href="https://ai.google/discover/palm-2/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">PaLM / PaLM 2</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-purple-400 font-bold mr-1">[BN]</span>গুগলের পূর্ববর্তী মাল্টিলিঙ্গুয়াল ও রিজনিং লার্জ ল্যাঙ্গুয়েজ মডেল টেকনোলজি ফ্যামিলি।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Google's classic lightweight multi-lingual LLM backing Google translation and enterprise solutions.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="ai.google">ai.google</span>
+                <a href="https://ai.google/discover/palm-2/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 06 AI Safety & Trust -->
+        <section id="safety" class="directory-section scroll-mt-8">
+          <div class="flex items-center justify-between border-b-2 border-white/30 pb-4 mb-8">
+            <div class="flex items-baseline gap-4">
+              <span class="text-3xl font-black italic font-mono text-[#9CA3AF]">06</span>
+              <div>
+                <h2 class="text-xl md:text-2xl font-black uppercase tracking-tight text-white flex items-center gap-2 mb-0.5">
+                  <i data-lucide="shield-check" class="w-5 h-5 text-[#9CA3AF]"></i>
+                  এআই সেফটি এবং ট্রাস্ট
+                </h2>
+                <p class="text-xs font-mono font-bold text-slate-400/90 tracking-widest uppercase">
+                  AI Safety & Trust
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 section-grid">
+            
+            <!-- Link Card: SynthID -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #9CA3AF; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://deepmind.google/technologies/synthid/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-gray-300 transition-all">
+                    SynthID Content Watermarking
+                  </a>
+                  <a href="https://deepmind.google/technologies/synthid/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">SynthID</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-gray-400 font-bold mr-1">[BN]</span>এআই দ্বারা জেনারেট করা ছবি, অডিও ও টেক্সটের অদৃশ্য অনন্য ওয়াটারমার্কিং এবং সত্যতা যাচাই টুল।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Tool for watermarking and identifying AI-generated content (images, audio, and text) without degrading quality.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="deepmind.google">deepmind.google</span>
+                <a href="https://deepmind.google/technologies/synthid/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: DeepMind Safety Research -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #9CA3AF; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://deepmind.google/safety/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-gray-300 transition-all">
+                    DeepMind Safety Research
+                  </a>
+                  <a href="https://deepmind.google/safety/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300 font-mono">DeepMind Safety Research</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-gray-400 font-bold mr-1">[BN]</span>সার্বিক এআই ঝুঁকি নিরসন ও নৈতিকভাবে নিরাপদ মডেল তৈরির ডিপমাইন্ড রিসার্চ উইং।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Exploration of ethical and safety-aligned boundaries for developing highly unified frontier AI models.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="deepmind.google">deepmind.google</span>
+                <a href="https://deepmind.google/safety/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link Card: AI Principles -->
+            <div class="product-card bg-[#161616] border-2 border-white/10 p-5 hover:border-white/30 transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5" style="border-left-color: #9CA3AF; border-left-width: 4px;">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <a href="https://ai.google/responsibility/principles/" target="_blank" rel="noopener noreferrer" class="font-black text-white text-base leading-snug tracking-tight hover:underline decoration-white decoration-2 underline-offset-4 group-hover:text-gray-300 transition-all">
+                    Google AI Principles
+                  </a>
+                  <a href="https://ai.google/responsibility/principles/" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-white transition-colors">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 bg-zinc-800 text-zinc-300 tracking-wider">REF</span>
+                  <span class="text-xs font-semibold text-slate-300">AI Principles</span>
+                </div>
+                <div class="space-y-2 pt-2 border-t border-white/5">
+                  <p class="text-xs text-slate-300 leading-relaxed"><span class="text-gray-400 font-bold mr-1">[BN]</span>গুগলের কৃত্রিম বুদ্ধিমত্তা উন্নয়ন ও নৈতিক ব্যবহারের ৭টি মূল স্তম্ভ ও নীতিমালা।</p>
+                  <p class="text-[11px] text-zinc-400 leading-normal italic"><span class="text-zinc-500 font-bold not-italic mr-1 font-mono">[EN]</span>Commitment to developing technology responsibly and with rigorous safety safeguards worldwide.</p>
+                </div>
+              </div>
+              <div class="mt-5 pt-3.5 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
+                <span class="font-mono text-[9px] uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap max-w-[170px]" title="ai.google">ai.google</span>
+                <a href="https://ai.google/responsibility/principles/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-400 group-hover:text-white transition-colors font-bold font-mono text-[10px]">
+                  LINK <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+
+      <!-- No Match Placeholder -->
+      <div id="no-match-card" class="text-center py-20 px-4 bg-[#161616] border-2 border-white/10 hidden">
+        <div class="w-12 h-12 bg-white/5 border border-white/15 flex items-center justify-center mx-auto mb-4">
+          <i data-lucide="search" class="w-6 h-6 text-zinc-400"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-1 uppercase tracking-wider font-mono">
+          কোনো ম্যাচ পাওয়া যায়নি (No matches found)
+        </h3>
+        <p class="text-xs text-zinc-400 max-w-sm mx-auto mb-6">
+          অনুগ্রহ করে সঠিক বানান অথবা অন্য কোনো কীওয়ার্ড ব্যবহার করে দেখুন।
+        </p>
+        <button 
+          onclick="clearSearch()"
+          class="inline-flex items-center gap-1.5 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-black bg-white hover:bg-slate-200 transition-colors cursor-pointer"
+        >
+          সার্চ রিসেট করুন (Reset search)
+        </button>
+      </div>
+
+      <!-- Bold Typography Footer -->
+      <footer class="mt-24 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-[10px] font-mono text-slate-500 gap-4">
+        <div>&copy; GOOGLE DEEPMIND / GOOGLE RESEARCH / GOOGLE CLOUD</div>
+        <div class="tracking-[0.5em] select-none">00110101 00101010 11100011</div>
+      </footer>
+
+    </div>
+
+    <!-- Client-side Search and Filter Script -->
+    <script>
+      // Initialize Lucide Icons
+      lucide.createIcons();
+
+      function filterDirectory() {
+        const query = document.getElementById("search-input").value.trim().toLowerCase();
+        const clearBtn = document.getElementById("search-clear-button");
+        const resetBtn = document.getElementById("reset-filter-btn");
+        const statsBadge = document.getElementById("stats-badge");
+        const sections = document.querySelectorAll(".directory-section");
+        const quickNav = document.getElementById("quick-nav-container");
+        const noMatchCard = document.getElementById("no-match-card");
+
+        if (query.length > 0) {
+          clearBtn.classList.remove("hidden");
+          resetBtn.classList.remove("hidden");
+          quickNav.classList.add("hidden");
+        } else {
+          clearBtn.classList.add("hidden");
+          resetBtn.classList.add("hidden");
+          quickNav.classList.remove("hidden");
+        }
+
+        let totalVisible = 0;
+
+        sections.forEach(section => {
+          const cards = section.querySelectorAll(".product-card");
+          let visibleInSection = 0;
+
+          cards.forEach(card => {
+            const cardText = card.textContent.toLowerCase();
+            if (cardText.includes(query)) {
+              card.classList.remove("hidden");
+              card.classList.add("flex");
+              visibleInSection++;
+              totalVisible++;
+            } else {
+              card.classList.add("hidden");
+              card.classList.remove("flex");
+            }
+          });
+
+          // Hide empty sections while filtering
+          if (visibleInSection > 0) {
+            section.classList.remove("hidden");
+          } else {
+            section.classList.add("hidden");
+          }
+        });
+
+        // Update stats badge
+        statsBadge.textContent = `${totalVisible} ${totalVisible === 1 ? 'PRODUCT MATCHED' : 'PRODUCTS MATCHED'}`;
+
+        // Show empty screen if nothing matched
+        if (totalVisible === 0) {
+          noMatchCard.classList.remove("hidden");
+        } else {
+          noMatchCard.classList.add("hidden");
+        }
+      }
+
+      function clearSearch() {
+        const input = document.getElementById("search-input");
+        input.value = "";
+        filterDirectory();
+        input.focus();
+      }
+    </script>
   </body>
 </html>
-
